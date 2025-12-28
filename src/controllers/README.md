@@ -16,12 +16,10 @@ Aquí se crearán controladores para:
 - `register()` - Lógica para registrar nuevos usuarios
 - `login()` - Lógica para autenticar usuarios
 - `logout()` - Lógica para cerrar sesión
-- `forgotPassword()` - Lógica para recuperar contraseña
 
 ### taskController.js
 
 - `getAllTasks()` - Obtener todas las tareas del usuario
-- `getTaskById()` - Obtener una tarea específica
 - `createTask()` - Crear nueva tarea
 - `updateTask()` - Actualizar tarea
 - `deleteTask()` - Eliminar tarea
@@ -30,6 +28,7 @@ Aquí se crearán controladores para:
 
 - `getProfile()` - Obtener perfil del usuario
 - `updateProfile()` - Actualizar información del perfil
+- `changePassword()` - Cambiar contraseña
 - `deleteAccount()` - Eliminar cuenta de usuario
 
 Por ahora, esta carpeta permanece vacía hasta que se implementen estos controladores.

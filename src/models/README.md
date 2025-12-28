@@ -18,7 +18,9 @@ Campos probables:
 - `id` - Identificador único
 - `email` - Correo electrónico (único)
 - `password` - Contraseña encriptada
-- `name` - Nombre del usuario
+- `name` - Nombre/s del usuario
+- `lastname` - Apellido/s del usuario
+- `alias` - Apodo del usuario
 - `createdAt` - Fecha de creación
 - `updatedAt` - Fecha de última actualización
 
@@ -27,11 +29,8 @@ Campos probables:
 Campos probables:
 
 - `id` - Identificador único
-- `title` - Título de la tarea
 - `description` - Descripción detallada
 - `completed` - Estado de completado (booleano)
-- `priority` - Prioridad (baja, media, alta)
-- `dueDate` - Fecha de vencimiento
 - `userId` - Referencia al usuario propietario
 - `createdAt` - Fecha de creación
 - `updatedAt` - Fecha de última actualización

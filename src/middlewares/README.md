@@ -14,7 +14,6 @@ Aquí se crearán middlewares personalizados como:
 ### authMiddleware.js
 
 - `verifyToken()` - Verificar que el usuario esté autenticado
-- `isAdmin()` - Verificar permisos de administrador
 
 ### validationMiddleware.js
 
