@@ -1,0 +1,31 @@
+{
+  "name": "procrastinant-app-be",
+  "version": "1.0.0",
+  "description": "API REST para aplicación de gestión de tareas (to-do list) desarrollada con Node.js y Express.",
+  "main": "server.js",
+  "scripts": {
+    "dev": "nodemon server.js",
+    "start": "node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "express",
+    "nodejs",
+    "api",
+    "rest",
+    "backend",
+    "todo"
+  ],
+  "author": "MCeciliaLuna",
+  "license": "MIT",
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
+    "express": "^5.2.1"
+  },
+  "devDependencies": {
+    "eslint": "^9.39.2",
+    "nodemon": "^3.1.11"
+  }
+}
