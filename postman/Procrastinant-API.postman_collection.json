@@ -1,0 +1,638 @@
+{
+  "info": {
+    "name": "Procrastinant API",
+    "_postman_id": "procrastinant-api-v1",
+    "description": "API REST para aplicación de gestión de tareas (to-do list). Incluye autenticación con JWT, CRUD de tareas y gestión de perfil de usuario.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000/api",
+      "type": "string"
+    },
+    {
+      "key": "token",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Autenticación",
+      "item": [
+        {
+          "name": "Registro",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 201\", function () {",
+                  "    pm.response.to.have.status(201);",
+                  "});",
+                  "",
+                  "pm.test(\"Response has token\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.data).to.have.property('token');",
+                  "    if (jsonData.data.token) {",
+                  "        pm.collectionVariables.set(\"token\", jsonData.data.token);",
+                  "    }",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"María Cecilia\",\n  \"apellido\": \"Luna\",\n  \"alias\": \"mcecilialuna\",\n  \"email\": \"maria@example.com\",\n  \"password\": \"Password123\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/register",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "register"]
+            },
+            "description": "Registra un nuevo usuario en el sistema"
+          },
+          "response": []
+        },
+        {
+          "name": "Login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"Response has token\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.data).to.have.property('token');",
+                  "    if (jsonData.data.token) {",
+                  "        pm.collectionVariables.set(\"token\", jsonData.data.token);",
+                  "    }",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"maria@example.com\",\n  \"password\": \"Password123\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/login",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "login"]
+            },
+            "description": "Inicia sesión y obtiene un token JWT"
+          },
+          "response": []
+        },
+        {
+          "name": "Logout",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/auth/logout",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "logout"]
+            },
+            "description": "Cierra la sesión del usuario"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Tareas",
+      "item": [
+        {
+          "name": "Obtener todas las tareas",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/tareas?page=1&limit=50&sort=numeroOrden&order=asc",
+              "host": ["{{baseUrl}}"],
+              "path": ["tareas"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "50"
+                },
+                {
+                  "key": "sort",
+                  "value": "numeroOrden"
+                },
+                {
+                  "key": "order",
+                  "value": "asc"
+                },
+                {
+                  "key": "listo",
+                  "value": "false",
+                  "disabled": true
+                }
+              ]
+            },
+            "description": "Obtiene todas las tareas del usuario autenticado con opciones de filtrado y paginación"
+          },
+          "response": []
+        },
+        {
+          "name": "Crear tarea",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 201\", function () {",
+                  "    pm.response.to.have.status(201);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"descripcion\": \"Terminar proyecto de React\",\n  \"listo\": false,\n  \"numeroOrden\": 1\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/tareas",
+              "host": ["{{baseUrl}}"],
+              "path": ["tareas"]
+            },
+            "description": "Crea una nueva tarea para el usuario autenticado"
+          },
+          "response": []
+        },
+        {
+          "name": "Actualizar tarea",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"descripcion\": \"Terminar proyecto de React y Next.js\",\n  \"numeroOrden\": 1\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/tareas/:id",
+              "host": ["{{baseUrl}}"],
+              "path": ["tareas", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "REEMPLAZAR_CON_ID_DE_TAREA"
+                }
+              ]
+            },
+            "description": "Actualiza la descripción y/o el número de orden de una tarea"
+          },
+          "response": []
+        },
+        {
+          "name": "Toggle estado de tarea",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"listo\": true\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/tareas/:id/toggle",
+              "host": ["{{baseUrl}}"],
+              "path": ["tareas", ":id", "toggle"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "REEMPLAZAR_CON_ID_DE_TAREA"
+                }
+              ]
+            },
+            "description": "Cambia el estado (listo/no listo) de una tarea. Si no se envía body, hace toggle automático."
+          },
+          "response": []
+        },
+        {
+          "name": "Eliminar tarea",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/tareas/:id",
+              "host": ["{{baseUrl}}"],
+              "path": ["tareas", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "REEMPLAZAR_CON_ID_DE_TAREA"
+                }
+              ]
+            },
+            "description": "Elimina una tarea específica"
+          },
+          "response": []
+        },
+        {
+          "name": "Reordenar tareas",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"orden\": [\n    { \"tareaId\": \"ID_TAREA_1\", \"numeroOrden\": 2 },\n    { \"tareaId\": \"ID_TAREA_2\", \"numeroOrden\": 1 },\n    { \"tareaId\": \"ID_TAREA_3\", \"numeroOrden\": 3 }\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/tareas/reorder",
+              "host": ["{{baseUrl}}"],
+              "path": ["tareas", "reorder"]
+            },
+            "description": "Reordena múltiples tareas en una sola operación"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Usuario",
+      "item": [
+        {
+          "name": "Obtener perfil",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/user/profile",
+              "host": ["{{baseUrl}}"],
+              "path": ["user", "profile"]
+            },
+            "description": "Obtiene el perfil del usuario autenticado"
+          },
+          "response": []
+        },
+        {
+          "name": "Verificar autenticación",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/user/verify",
+              "host": ["{{baseUrl}}"],
+              "path": ["user", "verify"]
+            },
+            "description": "Verifica si el usuario está autenticado (health check de sesión)"
+          },
+          "response": []
+        },
+        {
+          "name": "Actualizar perfil",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"María Cecilia\",\n  \"apellido\": \"Luna García\",\n  \"alias\": \"mcluna\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/user/profile",
+              "host": ["{{baseUrl}}"],
+              "path": ["user", "profile"]
+            },
+            "description": "Actualiza el perfil del usuario (todos los campos son opcionales)"
+          },
+          "response": []
+        },
+        {
+          "name": "Cambiar contraseña",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"currentPassword\": \"Password123\",\n  \"newPassword\": \"NewPassword456\",\n  \"confirmPassword\": \"NewPassword456\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/user/password",
+              "host": ["{{baseUrl}}"],
+              "path": ["user", "password"]
+            },
+            "description": "Cambia la contraseña del usuario (requiere contraseña actual)"
+          },
+          "response": []
+        },
+        {
+          "name": "Eliminar cuenta",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"password\": \"Password123\",\n  \"confirmacion\": \"ELIMINAR\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/user/account",
+              "host": ["{{baseUrl}}"],
+              "path": ["user", "account"]
+            },
+            "description": "Elimina la cuenta del usuario y todas sus tareas (IRREVERSIBLE)"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Health",
+      "item": [
+        {
+          "name": "Health Check",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/health",
+              "host": ["{{baseUrl}}"],
+              "path": ["health"]
+            },
+            "description": "Verifica que la API está funcionando correctamente"
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}
