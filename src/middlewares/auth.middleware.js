@@ -4,17 +4,16 @@ const User = require("../models/User.model");
 
 const verificarAuth = async (req, res, next) => {
   try {
-    const authHeader = req.headers.authorization;
+    // Leer token desde cookies (prioridad) o Authorization header (fallback para compatibilidad)
+    let token = req.cookies.authToken;
 
-    if (!authHeader) {
-      return unauthorizedResponse(res, "Token no proporcionado");
+    if (!token) {
+      const authHeader = req.headers.authorization;
+      if (authHeader && authHeader.startsWith("Bearer ")) {
+        token = authHeader.substring(7);
+      }
     }
 
-    if (!authHeader.startsWith("Bearer ")) {
-      return unauthorizedResponse(res, "Formato de token inválido");
-    }
-
-    const token = authHeader.substring(7);
     if (!token) {
       return unauthorizedResponse(res, "Token no proporcionado");
     }
@@ -49,14 +48,14 @@ const verificarAuth = async (req, res, next) => {
 
 const verificarAuthOpcional = async (req, res, next) => {
   try {
-    const authHeader = req.headers.authorization;
+    let token = req.cookies.authToken;
 
-    if (!authHeader || !authHeader.startsWith("Bearer ")) {
-      req.isAuthenticated = false;
-      return next();
+    if (!token) {
+      const authHeader = req.headers.authorization;
+      if (authHeader && authHeader.startsWith("Bearer ")) {
+        token = authHeader.substring(7);
+      }
     }
-
-    const token = authHeader.substring(7);
 
     if (!token) {
       req.isAuthenticated = false;

@@ -170,34 +170,29 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/tareas?page=1&limit=50&sort=numeroOrden&order=asc",
+              "raw": "{{baseUrl}}/tareas?sort=numeroOrden&order=asc",
               "host": ["{{baseUrl}}"],
               "path": ["tareas"],
               "query": [
                 {
-                  "key": "page",
-                  "value": "1"
-                },
-                {
-                  "key": "limit",
-                  "value": "50"
-                },
-                {
                   "key": "sort",
-                  "value": "numeroOrden"
+                  "value": "numeroOrden",
+                  "description": "Campo para ordenar (numeroOrden, createdAt, descripcion)"
                 },
                 {
                   "key": "order",
-                  "value": "asc"
+                  "value": "asc",
+                  "description": "Dirección de ordenamiento (asc, desc)"
                 },
                 {
                   "key": "listo",
                   "value": "false",
-                  "disabled": true
+                  "disabled": true,
+                  "description": "Filtrar por estado (true/false)"
                 }
               ]
             },
-            "description": "Obtiene todas las tareas del usuario autenticado con opciones de filtrado y paginación"
+            "description": "Obtiene todas las tareas del usuario autenticado con opciones de filtrado y ordenamiento"
           },
           "response": []
         },
