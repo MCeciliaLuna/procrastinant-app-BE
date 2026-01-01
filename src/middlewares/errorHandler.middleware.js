@@ -1,10 +1,8 @@
 const { errorResponse } = require("../utils/response.utils");
 
 const errorHandler = (err, req, res, next) => {
-  if (process.env.NODE_ENV === "development") {
-    console.error("❌ Error capturado:", err);
-    console.error("Stack trace:", err.stack);
-  }
+  console.error("❌ Error capturado:", err);
+  console.error("Stack trace:", err.stack);
 
   let statusCode = err.statusCode || err.status || 500;
   let message = err.message || "Error interno del servidor";
@@ -56,12 +54,9 @@ const errorHandler = (err, req, res, next) => {
     success: false,
     message: message,
     errors: errors,
+    stack: err.stack,
+    errorName: err.name,
   };
-
-  if (process.env.NODE_ENV === "development") {
-    response.stack = err.stack;
-    response.errorName = err.name;
-  }
 
   return res.status(statusCode).json(response);
 };

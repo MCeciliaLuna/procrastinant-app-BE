@@ -4,6 +4,7 @@ const cors = require("cors");
 const helmet = require("helmet");
 const morgan = require("morgan");
 const rateLimit = require("express-rate-limit");
+const cookieParser = require("cookie-parser");
 
 dotenv.config();
 
@@ -61,11 +62,11 @@ app.use("/api", limiter);
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: true, limit: "10mb" }));
 
-if (process.env.NODE_ENV !== "test") {
-  const morganFormat =
-    process.env.NODE_ENV === "development" ? "dev" : "combined";
-  app.use(morgan(morganFormat));
-}
+// Cookie parser para manejar cookies en requests
+app.use(cookieParser());
+
+// HTTP request logger
+app.use(morgan("dev"));
 
 app.get("/", (req, res) => {
   res.json({
@@ -93,9 +94,8 @@ const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
   console.log(`\n🚀 Servidor corriendo en http://localhost:${PORT}`);
-  console.log(`📝 Environment: ${process.env.NODE_ENV || "development"}`);
   console.log(`🌐 CORS habilitado para: ${allowedOrigins.join(", ")}`);
-  console.log(`🔒 Seguridad: Helmet y Rate Limiting activos`);
+  console.log(`🔒 Seguridad: Helmet, Rate Limiting y Cookies activos`);
   console.log(`\n📚 Documentación de API disponible en README.md`);
   console.log(`🏥 Health check: http://localhost:${PORT}/api/health\n`);
 });

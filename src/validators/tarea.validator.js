@@ -64,6 +64,7 @@ exports.validarToggleTarea = [
     .withMessage("El ID proporcionado no es un ID de MongoDB válido"),
 
   body("listo")
+    .optional()
     .isBoolean()
     .withMessage("El campo listo debe ser un valor booleano (true/false)"),
 

@@ -51,13 +51,8 @@ tareaSchema.methods.toggle = async function () {
   return await this.save();
 };
 
-
 tareaSchema.statics.findByUserId = function (userId, options = {}) {
-  const {
-    listo = null,
-    sort = "numeroOrden",
-    order = "asc",
-  } = options;
+  const { listo = null, sort = "numeroOrden", order = "asc" } = options;
 
   const query = { userId };
 
@@ -76,15 +71,9 @@ tareaSchema.statics.countByUserId = function (userId, filters = {}) {
   return this.countDocuments(query);
 };
 
-
 tareaSchema.statics.deleteAllByUserId = function (userId) {
   return this.deleteMany({ userId });
 };
-
-
-tareaSchema.pre("save", function (next) {
-  next();
-});
 
 const Tarea = mongoose.model("Tarea", tareaSchema);
 

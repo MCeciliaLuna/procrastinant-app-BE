@@ -1,26 +1,14 @@
-
 const mongoose = require("mongoose");
 
 const connectDB = async () => {
   try {
-    const mongoURI =
-      process.env.NODE_ENV === "test"
-        ? process.env.MONGODB_URI_TEST
-        : process.env.MONGODB_URI;
-
-    const options = {
-
-    };
-
-    const conn = await mongoose.connect(mongoURI, options);
+    const conn = await mongoose.connect(process.env.MONGODB_URI);
 
     console.log(`✅ Conexión a MongoDB exitosa: ${conn.connection.host}`);
     console.log(`📦 Base de datos: ${conn.connection.name}`);
   } catch (error) {
     console.error("❌ Error al conectar a MongoDB:", error.message);
-    if (process.env.NODE_ENV !== "production") {
-      process.exit(1);
-    }
+    process.exit(1);
   }
 };
 
