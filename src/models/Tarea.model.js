@@ -21,12 +21,6 @@ const tareaSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
-
-    numeroOrden: {
-      type: Number,
-      required: [true, "El número de orden es requerido"],
-      min: [0, "El número de orden debe ser mayor o igual a 0"],
-    },
   },
   {
     timestamps: true,

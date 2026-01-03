@@ -14,12 +14,6 @@ exports.validarCrearTarea = [
     .isBoolean()
     .withMessage("El campo listo debe ser un valor booleano (true/false)"),
 
-  body("numeroOrden")
-    .notEmpty()
-    .withMessage("El número de orden es requerido")
-    .isInt({ min: 0 })
-    .withMessage("El número de orden debe ser un entero mayor o igual a 0"),
-
   validarResultados,
 ];
 
@@ -36,10 +30,6 @@ exports.validarActualizarTarea = [
     .withMessage("La descripción no puede estar vacía")
     .isLength({ min: 1, max: 300 })
     .withMessage("La descripción debe tener entre 1 y 300 caracteres"),
-
-  body("numeroOrden")
-    .isInt({ min: 0 })
-    .withMessage("El número de orden debe ser un entero mayor o igual a 0"),
 
   body("listo")
     .not()
