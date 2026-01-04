@@ -28,10 +28,11 @@ exports.register = async (req, res, next) => {
 
     const token = generateToken(newUser._id);
 
+    const isProduction = process.env.NODE_ENV === "production";
     res.cookie("authToken", token, {
       httpOnly: true,
-      secure: req.secure || req.headers["x-forwarded-proto"] === "https",
-      sameSite: "strict",
+      secure: isProduction,
+      sameSite: isProduction ? "none" : "lax",
       maxAge: 7 * 24 * 60 * 60 * 1000,
       path: "/",
     });
@@ -65,10 +66,11 @@ exports.login = async (req, res, next) => {
 
     const token = generateToken(user._id);
 
+    const isProduction = process.env.NODE_ENV === "production";
     res.cookie("authToken", token, {
       httpOnly: true,
-      secure: req.secure || req.headers["x-forwarded-proto"] === "https",
-      sameSite: "strict",
+      secure: isProduction,
+      sameSite: isProduction ? "none" : "lax",
       maxAge: 7 * 24 * 60 * 60 * 1000,
       path: "/",
     });
@@ -84,10 +86,11 @@ exports.login = async (req, res, next) => {
 
 exports.logout = async (req, res, next) => {
   try {
+    const isProduction = process.env.NODE_ENV === "production";
     res.clearCookie("authToken", {
       httpOnly: true,
-      secure: req.secure || req.headers["x-forwarded-proto"] === "https",
-      sameSite: "strict",
+      secure: isProduction,
+      sameSite: isProduction ? "none" : "lax",
       path: "/",
     });
 
