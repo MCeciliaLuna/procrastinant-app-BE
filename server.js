@@ -23,7 +23,7 @@ app.use(helmet());
 
 const allowedOrigins = process.env.ALLOWED_ORIGINS?.split(",") || [
   "http://localhost:5173",
-  process.env.DEPLOY_FRONTEND_URL,
+  `${process.env.DEPLOY_FRONTEND_URL}*`,
 ];
 
 app.use(
