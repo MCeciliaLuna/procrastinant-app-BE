@@ -23,6 +23,7 @@ app.use(helmet());
 
 const allowedOrigins = process.env.ALLOWED_ORIGINS?.split(",") || [
   "http://localhost:5173",
+  process.env.DEPLOY_FRONTEND_URL,
 ];
 
 app.use(
@@ -62,10 +63,8 @@ app.use("/api", limiter);
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: true, limit: "10mb" }));
 
-// Cookie parser para manejar cookies en requests
 app.use(cookieParser());
 
-// HTTP request logger
 app.use(morgan("dev"));
 
 app.get("/", (req, res) => {
