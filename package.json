@@ -6,7 +6,13 @@
   "scripts": {
     "dev": "nodemon server.js",
     "start": "node server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "format": "prettier --write \"src/**/*.js\" \"*.js\"",
+    "format:check": "prettier --check \"src/**/*.js\" \"*.js\"",
+    "lint": "eslint src/ server.js",
+    "lint:fix": "eslint src/ server.js --fix"
   },
   "keywords": [
     "express",
@@ -32,7 +38,13 @@
     "morgan": "^1.10.0"
   },
   "devDependencies": {
+    "@types/jest": "^30.0.0",
     "eslint": "^9.39.2",
-    "nodemon": "^3.1.11"
+    "eslint-config-prettier": "^10.1.8",
+    "jest": "^30.2.0",
+    "mongodb-memory-server": "^10.4.3",
+    "nodemon": "^3.1.11",
+    "prettier": "^3.7.4",
+    "supertest": "^7.1.4"
   }
 }

@@ -221,12 +221,12 @@ Este proyecto está bajo la licencia MIT.
 
 La API cuenta con **15 endpoints** organizados en 3 categorías:
 
-| Categoría         | Cantidad | Descripción                                                      |
-| ----------------- | -------- | ---------------------------------------------------------------- |
-| **Autenticación** | 3        | Login, registro, logout                                          |
-| **Tareas**        | 6        | CRUD completo + reordenamiento + toggle estado                   |
+| Categoría         | Cantidad | Descripción                                                         |
+| ----------------- | -------- | ------------------------------------------------------------------- |
+| **Autenticación** | 3        | Login, registro, logout                                             |
+| **Tareas**        | 6        | CRUD completo + reordenamiento + toggle estado                      |
 | **Usuario**       | 5        | Perfil, actualización, cambio contraseña, verificación, eliminación |
-| **Health**        | 1        | Health check de la API                                           |
+| **Health**        | 1        | Health check de la API                                              |
 
 ### Base URL
 
@@ -248,15 +248,16 @@ El token se obtiene al hacer login o registro y tiene una duración de 7 días p
 
 ### 🔐 Endpoints de Autenticación (`/api/auth`)
 
-| Método | Endpoint          | Acceso  | Descripción              |
-| ------ | ----------------- | ------- | ------------------------ |
-| POST   | `/auth/register`  | Público | Registrar nuevo usuario  |
-| POST   | `/auth/login`     | Público | Iniciar sesión           |
-| POST   | `/auth/logout`    | Privado | Cerrar sesión            |
+| Método | Endpoint         | Acceso  | Descripción             |
+| ------ | ---------------- | ------- | ----------------------- |
+| POST   | `/auth/register` | Público | Registrar nuevo usuario |
+| POST   | `/auth/login`    | Público | Iniciar sesión          |
+| POST   | `/auth/logout`   | Privado | Cerrar sesión           |
 
 #### Ejemplo: Registro
 
 **Request:**
+
 ```bash
 POST /api/auth/register
 Content-Type: application/json
@@ -271,6 +272,7 @@ Content-Type: application/json
 ```
 
 **Response (201 Created):**
+
 ```json
 {
   "success": true,
@@ -295,26 +297,24 @@ Content-Type: application/json
 
 **Todos los endpoints son privados** (requieren autenticación)
 
-| Método | Endpoint              | Descripción                    |
-| ------ | --------------------- | ------------------------------ |
-| GET    | `/tareas`             | Obtener todas las tareas       |
-| POST   | `/tareas`             | Crear nueva tarea              |
-| PUT    | `/tareas/:id`         | Actualizar tarea               |
-| PATCH  | `/tareas/:id/toggle`  | Cambiar estado (listo)         |
-| DELETE | `/tareas/:id`         | Eliminar tarea                 |
-| POST   | `/tareas/reorder`     | Reordenar tareas               |
+| Método | Endpoint             | Descripción              |
+| ------ | -------------------- | ------------------------ |
+| GET    | `/tareas`            | Obtener todas las tareas |
+| POST   | `/tareas`            | Crear nueva tarea        |
+| PUT    | `/tareas/:id`        | Actualizar tarea         |
+| PATCH  | `/tareas/:id/toggle` | Cambiar estado (listo)   |
+| DELETE | `/tareas/:id`        | Eliminar tarea           |
 
 #### Query Parameters (GET /tareas)
 
-- `page`: Número de página (default: 1)
-- `limit`: Tareas por página (default: 50)
 - `listo`: Filtrar por estado (true/false)
-- `sort`: Campo para ordenar (numeroOrden, createdAt, descripcion)
-- `order`: Dirección (asc, desc)
+- `sort`: Campo para ordenar (createdAt, descripcion) - default: createdAt
+- `order`: Dirección (asc, desc) - default: desc
 
 #### Ejemplo: Crear Tarea
 
 **Request:**
+
 ```bash
 POST /api/tareas
 Authorization: Bearer <token>
@@ -322,12 +322,12 @@ Content-Type: application/json
 
 {
   "descripcion": "Terminar proyecto de React",
-  "listo": false,
-  "numeroOrden": 1
+  "listo": false
 }
 ```
 
 **Response (201 Created):**
+
 ```json
 {
   "success": true,
@@ -338,7 +338,6 @@ Content-Type: application/json
       "userId": "507f1f77bcf86cd799439011",
       "descripcion": "Terminar proyecto de React",
       "listo": false,
-      "numeroOrden": 1,
       "createdAt": "2025-12-31T20:45:00.000Z",
       "updatedAt": "2025-12-31T20:45:00.000Z"
     }
@@ -352,17 +351,18 @@ Content-Type: application/json
 
 **Todos los endpoints son privados** (requieren autenticación)
 
-| Método | Endpoint           | Descripción                 |
-| ------ | ------------------ | --------------------------- |
-| GET    | `/user/profile`    | Obtener perfil              |
-| GET    | `/user/verify`     | Verificar autenticación     |
-| PUT    | `/user/profile`    | Actualizar perfil           |
-| PUT    | `/user/password`   | Cambiar contraseña          |
-| DELETE | `/user/account`    | Eliminar cuenta             |
+| Método | Endpoint         | Descripción             |
+| ------ | ---------------- | ----------------------- |
+| GET    | `/user/profile`  | Obtener perfil          |
+| GET    | `/user/verify`   | Verificar autenticación |
+| PUT    | `/user/profile`  | Actualizar perfil       |
+| PUT    | `/user/password` | Cambiar contraseña      |
+| DELETE | `/user/account`  | Eliminar cuenta         |
 
 #### Ejemplo: Actualizar Perfil
 
 **Request:**
+
 ```bash
 PUT /api/user/profile
 Authorization: Bearer <token>
@@ -379,9 +379,9 @@ Content-Type: application/json
 
 ### 🏥 Health Check
 
-| Método | Endpoint      | Acceso  | Descripción                |
-| ------ | ------------- | ------- | -------------------------- |
-| GET    | `/health`     | Público | Estado de la API           |
+| Método | Endpoint  | Acceso  | Descripción      |
+| ------ | --------- | ------- | ---------------- |
+| GET    | `/health` | Público | Estado de la API |
 
 ```bash
 GET /api/health
@@ -422,16 +422,16 @@ GET /api/health
 
 ### Códigos de Estado HTTP
 
-| Código | Significado                 | Uso                                           |
-| ------ | --------------------------- | --------------------------------------------- |
-| 200    | OK                          | Operación exitosa                             |
-| 201    | Created                     | Recurso creado exitosamente                   |
-| 400    | Bad Request                 | Error de validación                           |
-| 401    | Unauthorized                | No autenticado o token inválido               |
-| 403    | Forbidden                   | Sin permisos para el recurso                  |
-| 404    | Not Found                   | Recurso no encontrado                         |
-| 429    | Too Many Requests           | Límite de peticiones excedido                 |
-| 500    | Internal Server Error       | Error del servidor                            |
+| Código | Significado           | Uso                             |
+| ------ | --------------------- | ------------------------------- |
+| 200    | OK                    | Operación exitosa               |
+| 201    | Created               | Recurso creado exitosamente     |
+| 400    | Bad Request           | Error de validación             |
+| 401    | Unauthorized          | No autenticado o token inválido |
+| 403    | Forbidden             | Sin permisos para el recurso    |
+| 404    | Not Found             | Recurso no encontrado           |
+| 429    | Too Many Requests     | Límite de peticiones excedido   |
+| 500    | Internal Server Error | Error del servidor              |
 
 ---
 
@@ -515,7 +515,7 @@ La API implementa las siguientes medidas de seguridad:
 ✅ Helmet para headers de seguridad HTTP  
 ✅ Validación de datos de entrada con express-validator  
 ✅ Validación de pertenencia de recursos  
-✅ Manejo centralizado de errores  
+✅ Manejo centralizado de errores
 
 ---
 
@@ -544,7 +544,6 @@ La API implementa las siguientes medidas de seguridad:
   userId: ObjectId (ref: User),
   descripcion: String (1-300 caracteres),
   listo: Boolean (default: false),
-  numeroOrden: Number (>= 0),
   createdAt: Date,
   updatedAt: Date
 }

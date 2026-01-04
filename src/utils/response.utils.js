@@ -15,7 +15,7 @@ exports.errorResponse = (res, statusCode, message, errors = null) => {
     errors: errors,
   };
 
-    if (process.env.NODE_ENV === "development" && errors && errors.stack) {
+  if (process.env.NODE_ENV === "development" && errors && errors.stack) {
     response.stack = errors.stack;
   }
 
@@ -35,16 +35,13 @@ exports.unauthorizedResponse = (res, message = "No autorizado") => {
   return exports.errorResponse(res, 401, message, null);
 };
 
-
 exports.forbiddenResponse = (res, message = "Acceso prohibido") => {
   return exports.errorResponse(res, 403, message, null);
 };
 
-
 exports.notFoundResponse = (res, message = "Recurso no encontrado") => {
   return exports.errorResponse(res, 404, message, null);
 };
-
 
 exports.serverErrorResponse = (
   res,

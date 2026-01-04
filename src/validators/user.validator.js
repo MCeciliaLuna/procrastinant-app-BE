@@ -78,13 +78,12 @@ exports.validarCambiarPassword = [
       return true;
     }),
 
-  body("confirmPassword")
-    .custom((value, { req }) => {
-      if (value !== req.body.newPassword) {
-        throw new Error("Las contraseñas no coinciden");
-      }
-      return true;
-    }),
+  body("confirmPassword").custom((value, { req }) => {
+    if (value !== req.body.newPassword) {
+      throw new Error("Las contraseñas no coinciden");
+    }
+    return true;
+  }),
   validarResultados,
 ];
 
@@ -93,15 +92,14 @@ exports.validarEliminarCuenta = [
     .notEmpty()
     .withMessage("La contraseña es requerida para confirmar la eliminación"),
 
-  body("confirmacion")
-    .custom((value) => {
-      if (value !== "ELIMINAR") {
-        throw new Error(
-          "Para confirmar la eliminación, debes escribir exactamente: ELIMINAR"
-        );
-      }
-      return true;
-    }),
+  body("confirmacion").custom((value) => {
+    if (value !== "ELIMINAR") {
+      throw new Error(
+        "Para confirmar la eliminación, debes escribir exactamente: ELIMINAR"
+      );
+    }
+    return true;
+  }),
 
   validarResultados,
 ];

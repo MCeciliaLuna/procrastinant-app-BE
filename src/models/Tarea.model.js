@@ -28,8 +28,6 @@ const tareaSchema = new mongoose.Schema(
   }
 );
 
-tareaSchema.index({ userId: 1, numeroOrden: 1 });
-
 tareaSchema.index({ userId: 1, listo: 1 });
 
 tareaSchema.index({ createdAt: -1 });
@@ -46,7 +44,7 @@ tareaSchema.methods.toggle = async function () {
 };
 
 tareaSchema.statics.findByUserId = function (userId, options = {}) {
-  const { listo = null, sort = "numeroOrden", order = "asc" } = options;
+  const { listo = null, sort = "createdAt", order = "desc" } = options;
 
   const query = { userId };
 

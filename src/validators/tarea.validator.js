@@ -70,25 +70,3 @@ exports.validarEliminarTarea = [
 
   validarResultados,
 ];
-
-exports.validarReordenarTareas = [
-  body("orden")
-    .notEmpty()
-    .withMessage("El array de orden es requerido")
-    .isArray({ min: 1 })
-    .withMessage("El orden debe ser un array con al menos un elemento"),
-
-  body("orden.*.tareaId")
-    .notEmpty()
-    .withMessage("El tareaId es requerido en cada elemento")
-    .isMongoId()
-    .withMessage("El tareaId debe ser un ID de MongoDB válido"),
-
-  body("orden.*.numeroOrden")
-    .notEmpty()
-    .withMessage("El numeroOrden es requerido en cada elemento")
-    .isInt({ min: 0 })
-    .withMessage("El numeroOrden debe ser un entero mayor o igual a 0"),
-
-  validarResultados,
-];

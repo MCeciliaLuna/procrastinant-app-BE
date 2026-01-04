@@ -3,14 +3,11 @@ module.exports = {
     node: true,
     es2021: true,
   },
-  extends: "eslint:recommended",
+  extends: ["eslint:recommended", "prettier"],
   parserOptions: {
     ecmaVersion: "latest",
   },
   rules: {
     "no-console": "off",
-    indent: ["error", 2],
-    quotes: ["error", "single"],
-    semi: ["error", "always"],
   },
 };

@@ -10,7 +10,7 @@ exports.obtenerTareas = async (req, res, next) => {
   try {
     const userId = req.userId;
 
-    const { listo, sort = "numeroOrden", order = "asc" } = req.query;
+    const { listo, sort = "createdAt", order = "desc" } = req.query;
 
     const options = {
       listo: listo !== undefined ? listo === "true" : null,
@@ -31,13 +31,12 @@ exports.obtenerTareas = async (req, res, next) => {
 exports.crearTarea = async (req, res, next) => {
   try {
     const userId = req.userId;
-    const { descripcion, listo = false, numeroOrden } = req.body;
+    const { descripcion, listo = false } = req.body;
 
     const nuevaTarea = new Tarea({
       userId: userId,
       descripcion: descripcion,
       listo: listo,
-      numeroOrden: numeroOrden,
     });
     await nuevaTarea.save();
 
@@ -53,7 +52,7 @@ exports.actualizarTarea = async (req, res, next) => {
   try {
     const userId = req.userId;
     const tareaId = req.params.id;
-    const { descripcion, numeroOrden } = req.body;
+    const { descripcion } = req.body;
 
     const tarea = await Tarea.findById(tareaId);
     if (!tarea) {
@@ -69,9 +68,6 @@ exports.actualizarTarea = async (req, res, next) => {
 
     if (descripcion !== undefined) {
       tarea.descripcion = descripcion;
-    }
-    if (numeroOrden !== undefined) {
-      tarea.numeroOrden = numeroOrden;
     }
     await tarea.save();
 
@@ -137,47 +133,6 @@ exports.eliminarTarea = async (req, res, next) => {
 
     return successResponse(res, 200, "Tarea eliminada exitosamente", {
       tareaId: tareaId,
-    });
-  } catch (error) {
-    next(error);
-  }
-};
-
-exports.reordenarTareas = async (req, res, next) => {
-  try {
-    const userId = req.userId;
-    const { orden } = req.body;
-
-    const tareasIds = orden.map((item) => item.tareaId);
-    const tareas = await Tarea.find({
-      _id: { $in: tareasIds },
-      userId: userId,
-    });
-
-    if (tareas.length !== orden.length) {
-      return errorResponse(
-        res,
-        400,
-        "Algunas tareas no existen o no te pertenecen"
-      );
-    }
-
-    const updatePromises = orden.map((item) =>
-      Tarea.findByIdAndUpdate(
-        item.tareaId,
-        { numeroOrden: item.numeroOrden },
-        { new: true }
-      )
-    );
-    const tareasActualizadas = await Promise.all(updatePromises);
-
-    return successResponse(res, 200, "Tareas reordenadas exitosamente", {
-      tareasActualizadas: tareasActualizadas.length,
-      tareas: tareasActualizadas.map((t) => ({
-        _id: t._id,
-        numeroOrden: t.numeroOrden,
-        descripcion: t.descripcion,
-      })),
     });
   } catch (error) {
     next(error);

@@ -20,7 +20,6 @@ router.get("/health", (req, res) => {
   return successResponse(res, 200, "API funcionando correctamente", healthInfo);
 });
 
-
 router.use("/auth", authRoutes);
 
 router.use("/tareas", tareasRoutes);

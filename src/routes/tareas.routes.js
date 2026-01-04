@@ -8,7 +8,6 @@ const {
   validarActualizarTarea,
   validarToggleTarea,
   validarEliminarTarea,
-  validarReordenarTareas,
 } = require("../validators/tarea.validator");
 
 const { verificarAuth } = require("../middlewares/auth.middleware");
@@ -18,12 +17,6 @@ router.use(verificarAuth);
 router.get("/", tareasController.obtenerTareas);
 
 router.post("/", validarCrearTarea, tareasController.crearTarea);
-
-router.post(
-  "/reorder",
-  validarReordenarTareas,
-  tareasController.reordenarTareas
-);
 
 router.put("/:id", validarActualizarTarea, tareasController.actualizarTarea);
 

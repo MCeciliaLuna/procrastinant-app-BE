@@ -2,8 +2,33 @@ services:
   - type: web
     name: procrastinant-backend
     env: node
-    buildCommand: npm install
+    region: oregon
+    plan: starter
+    buildCommand: npm ci
     startCommand: npm start
+    healthCheckPath: /api/health
+    autoDeploy: true
     envVars:
       - key: NODE_ENV
         value: production
+
+      - key: PORT
+        value: 3000
+
+      - key: MONGODB_URI
+        sync: false
+
+      - key: JWT_SECRET
+        generateValue: true
+
+      - key: JWT_EXPIRES_IN
+        value: 7d
+
+      - key: BCRYPT_SALT_ROUNDS
+        value: 10
+
+      - key: ALLOWED_ORIGINS
+        sync: false
+
+      - key: DEPLOY_FRONTEND_URL
+        sync: false
