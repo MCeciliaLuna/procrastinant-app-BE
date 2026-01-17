@@ -16,5 +16,19 @@ module.exports = {
       statements: 70,
     },
   },
-  setupFilesAfterEnv: ["<rootDir>/src/__tests__/setup.js"],
+  projects: [
+    {
+      displayName: "unit",
+      testMatch: ["**/__tests__/unit/**/*.test.js"],
+      setupFilesAfterEnv: ["<rootDir>/src/__tests__/setup.js"],
+    },
+    {
+      displayName: "integration",
+      testMatch: ["**/__tests__/integration/**/*.test.js"],
+      setupFilesAfterEnv: [
+        "<rootDir>/src/__tests__/integration/setup.integration.js",
+      ],
+      testTimeout: 30000,
+    },
+  ],
 };

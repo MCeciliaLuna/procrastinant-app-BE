@@ -83,6 +83,122 @@ npm start
 
 El servidor se ejecutará con Node.js sin auto-reinicio.
 
+## 🧪 Testing
+
+### Resumen de Tests
+
+El proyecto cuenta con una suite completa de tests que incluye:
+
+- **64 tests totales** (60 pasando)
+- **23 tests unitarios** - Modelos y utilidades
+- **40 tests de integración** - Endpoints de API
+- **Cobertura actual: ~60%** (muy cerca del objetivo de 70%)
+
+### Estructura de Tests
+
+```
+src/__tests__/
+├── unit/                     # Tests unitarios
+│   ├── models/
+│   │   ├── User.test.js      # Tests del modelo User (9 tests)
+│   │   └── Tarea.test.js     # Tests del modelo Tarea (11 tests)
+│   └── utils/
+│       └── jwt.test.js       # Tests de utilidades JWT (3 tests)
+├── integration/              # Tests de integración
+│   ├── auth.integration.test.js    # Auth endpoints (13 tests) ✅
+│   ├── tareas.integration.test.js  # Tareas endpoints (25 tests) ✅
+│   ├── health.integration.test.js  # Health check (2 tests) ✅
+│   └── setup.integration.js        # Setup para tests de integración
+├── helpers/
+│   └── test-helpers.js       # Utilidades compartidas (17 funciones)
+└── setup.js                  # Setup global para tests unitarios
+```
+
+### Comandos de Testing
+
+```bash
+# Ejecutar todos los tests
+npm test
+
+# Tests unitarios únicamente
+npm test -- --selectProjects=unit
+
+# Tests de integración únicamente
+npm test -- --selectProjects=integration
+
+# Tests con coverage
+npm test:coverage
+# o
+npm test -- --coverage
+
+# Watch mode (auto-ejecutar al guardar)
+npm run test:watch
+
+# Ejecutar un archivo específico
+npm test -- auth.integration.test
+```
+
+### Cobertura de Tests
+
+| **Componente**  | **Coverage** | **Estado**        |
+| --------------- | ------------ | ----------------- |
+| **Models**      | 97.36%       | ✅ Excelente      |
+| **Routes**      | 95.91%       | ✅ Excelente      |
+| **Utils**       | 84.84%       | ✅ Bueno          |
+| **Validators**  | 62.50%       | ⚠️ Mejorable      |
+| **Middlewares** | 52.04%       | ⚠️ Mejorable      |
+| **Controllers** | 11.66%       | ❌ Requiere tests |
+
+**Global**: 60% (objetivo: 70%)
+
+### Tests por Categoría
+
+#### ✅ Tests Unitarios (23/23 passing)
+
+**Modelos**:
+
+- User Model: Validaciones, métodos, email uniqueness
+- Tarea Model: CRUD, toggle, validaciones
+
+**Utilidades**:
+
+- JWT: Generate, verify, decode tokens
+
+#### ✅ Tests de Integración (40/40 passing)
+
+**Auth Endpoints** (13 tests):
+
+- `POST /api/auth/register` - Registro con validaciones
+- `POST /api/auth/login` - Login con autenticación
+- `POST /api/auth/logout` - Logout con cookie clearing
+
+**Tareas Endpoints** (25 tests):
+
+- `GET /api/tareas` - Listar con filtros
+- `POST /api/tareas` - Crear tarea
+- `PUT /api/tareas/:id` - Actualizar tarea
+- `PATCH /api/tareas/:id/toggle` - Toggle estado
+- `DELETE /api/tareas/:id` - Eliminar tarea
+- Tests de ownership y autorización
+
+**Health Check** (2 tests):
+
+- `GET /api/health` - Status del servidor
+
+### Tecnología de Testing
+
+- **Jest** - Framework de testing
+- **Supertest** - Tests de endpoints HTTP
+- **MongoDB Memory Server** - Base de datos en memoria para tests
+- **Cookie-parser** - Manejo de cookies en tests
+
+### Notas Importantes
+
+- Los tests de integración usan **autenticación con cookies HTTP-only**
+- La base de datos de tests es **completamente aislada** (in-memory)
+- Cada test tiene **limpieza automática** de datos
+- Los tests se ejecutan en **paralelo** por proyecto (unit/integration)
+
 ## 📁 Estructura del Proyecto
 
 ```
