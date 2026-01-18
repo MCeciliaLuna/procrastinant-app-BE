@@ -23,7 +23,7 @@ const userSchema = new mongoose.Schema(
       required: [true, "El alias es requerido"],
       trim: true,
       minLength: [3, "El alias debe tener al menos 3 caracteres"],
-      maxLength: [20, "El alias no puede exceder 10 caracteres"],
+      maxLength: [20, "El alias no puede exceder 20 caracteres"],
     },
 
     email: {

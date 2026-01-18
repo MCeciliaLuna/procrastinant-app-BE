@@ -10,16 +10,22 @@ Este es el servidor backend de Procrastinant App, una aplicación de gestión de
 
 - **Node.js** v24.12.0 LTS ('Krypton')
 - **Express.js** - Framework web para Node.js
+- **MongoDB & Mongoose** - Base de datos NoSQL y ODM
+- **JWT** - Autenticación basada en tokens
+- **bcrypt** - Encriptación segura de contraseñas
 - **CORS** - Manejo de peticiones cross-origin
+- **Helmet** - Headers de seguridad HTTP
+- **express-rate-limit** - Limitación de peticiones
+- **express-validator** - Validación de datos
 - **dotenv** - Gestión de variables de entorno
-- **bcrypt** - Encriptación de contraseñas (para futuras implementaciones)
-- **nodemon** - Auto-reinicio del servidor en desarrollo
-- **ESLint** - Linter de código JavaScript
+- **Jest & Supertest** - Testing unitario e integración
+- **ESLint & Prettier** - Calidad y formato de código
 
 ## 📦 Requisitos Previos
 
-- **Node.js** v24.12.0 o superior
+- **Node.js** v18.0.0 o superior
 - **npm** (incluido con Node.js)
+- **MongoDB** 5.0 o superior (local o Atlas)
 
 ## 🔧 Instalación
 
@@ -297,18 +303,18 @@ El servidor está configurado para aceptar peticiones desde:
 
 ## 🗺️ Próximos Pasos
 
-Futuras implementaciones planeadas:
+Mejoras y características planeadas:
 
-- [ ] Implementar rutas de autenticación (registro, login, recuperación de contraseña)
-- [ ] Implementar rutas de tareas (CRUD completo)
-- [ ] Implementar rutas de usuario (perfil, configuración)
-- [ ] Integrar base de datos (MongoDB o PostgreSQL)
-- [ ] Implementar autenticación con JWT
-- [ ] Implementar validación de datos con bibliotecas como Joi o express-validator
-- [ ] Agregar tests unitarios e integración
-- [ ] Implementar manejo centralizado de errores
-- [ ] Agregar logging con Winston o Morgan
-- [ ] Documentación de API con Swagger
+- [ ] Solucionar tests fallidos del toggle de tareas
+- [ ] Aumentar cobertura de tests a 70% (actualmente 60%)
+- [ ] Agregar tests para controllers (actualmente 11.66% cobertura)
+- [ ] Implementar paginación en listado de tareas
+- [ ] Agregar filtros avanzados (por fecha, prioridad)
+- [ ] Implementar categorías o etiquetas para tareas
+- [ ] Agregar soft delete para usuarios y tareas
+- [ ] Implementar logging con Winston
+- [ ] Documentación de API con Swagger/OpenAPI
+- [ ] CI/CD con GitHub Actions
 
 ## 🤝 Contribución
 

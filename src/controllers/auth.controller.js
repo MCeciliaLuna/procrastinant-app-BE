@@ -2,6 +2,7 @@ const User = require("../models/User.model");
 const bcrypt = require("bcrypt");
 const { generateToken } = require("../utils/jwt.utils");
 const { successResponse, errorResponse } = require("../utils/response.utils");
+const { setAuthCookie, clearAuthCookie } = require("../utils/cookie.utils");
 
 exports.register = async (req, res, next) => {
   try {
@@ -27,15 +28,7 @@ exports.register = async (req, res, next) => {
     await newUser.save();
 
     const token = generateToken(newUser._id);
-
-    const isProduction = process.env.NODE_ENV === "production";
-    res.cookie("authToken", token, {
-      httpOnly: true,
-      secure: isProduction,
-      sameSite: isProduction ? "none" : "lax",
-      maxAge: 7 * 24 * 60 * 60 * 1000,
-      path: "/",
-    });
+    setAuthCookie(res, token);
 
     const userResponse = newUser.toJSON();
     return successResponse(res, 201, "Usuario registrado exitosamente", {
@@ -65,15 +58,7 @@ exports.login = async (req, res, next) => {
     }
 
     const token = generateToken(user._id);
-
-    const isProduction = process.env.NODE_ENV === "production";
-    res.cookie("authToken", token, {
-      httpOnly: true,
-      secure: isProduction,
-      sameSite: isProduction ? "none" : "lax",
-      maxAge: 7 * 24 * 60 * 60 * 1000,
-      path: "/",
-    });
+    setAuthCookie(res, token);
 
     const userResponse = user.toJSON();
     return successResponse(res, 200, "Inicio de sesión exitoso", {
@@ -86,13 +71,7 @@ exports.login = async (req, res, next) => {
 
 exports.logout = async (req, res, next) => {
   try {
-    const isProduction = process.env.NODE_ENV === "production";
-    res.clearCookie("authToken", {
-      httpOnly: true,
-      secure: isProduction,
-      sameSite: isProduction ? "none" : "lax",
-      path: "/",
-    });
+    clearAuthCookie(res);
 
     return successResponse(res, 200, "Sesión cerrada exitosamente", null);
   } catch (error) {

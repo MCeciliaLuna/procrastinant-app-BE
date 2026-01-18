@@ -1,7 +1,6 @@
 const Tarea = require("../models/Tarea.model");
 const {
   successResponse,
-  errorResponse,
   notFoundResponse,
   forbiddenResponse,
 } = require("../utils/response.utils");

@@ -1,6 +1,6 @@
 const { errorResponse } = require("../utils/response.utils");
 
-const errorHandler = (err, req, res, next) => {
+const errorHandler = (err, req, res, _next) => {
   console.error("❌ Error capturado:", err);
   console.error("Stack trace:", err.stack);
 

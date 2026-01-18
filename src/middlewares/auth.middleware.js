@@ -1,10 +1,8 @@
 const { verifyToken } = require("../utils/jwt.utils");
 const { unauthorizedResponse } = require("../utils/response.utils");
-const User = require("../models/User.model");
 
 const verificarAuth = async (req, res, next) => {
   try {
-    // Leer token desde cookies (prioridad) o Authorization header (fallback para compatibilidad)
     let token = req.cookies.authToken;
 
     if (!token) {
@@ -73,7 +71,7 @@ const verificarAuthOpcional = async (req, res, next) => {
     }
 
     next();
-  } catch (error) {
+  } catch {
     req.isAuthenticated = false;
     next();
   }
